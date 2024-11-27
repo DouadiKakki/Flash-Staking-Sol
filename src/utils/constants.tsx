@@ -1,0 +1,8 @@
+
+export const DATETIME_FORMAT = {
+    MONTH_STR: 'MMM YYYY',
+    SHORT_DATE_STR: 'D MMM YYYY',
+    SHORT_DATE: 'YYYY-MM-DD',
+    SHORT_DATE2: 'DD/MM/YYYY',
+    TIME_24: 'HH:mm A'
+};
