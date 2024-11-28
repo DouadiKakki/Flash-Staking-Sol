@@ -6,6 +6,7 @@ import React from 'react';
 import Icon1 from "../../assets/imgs/client-1.png";
 import Icon2 from "../../assets/imgs/client-2.png";
 import IconButton from '../../components/IconButton';
+import { useNavigate } from 'react-router-dom';
 
 const cards = [
 	{
@@ -21,6 +22,8 @@ const cards = [
 ];
 
 const Testimonials = () => {
+
+	const navigate = useNavigate();
 
 	return (
 		<div id="statistics" className='w-full px-[20px] pt-[80px] lg:pt-[160px]'>
@@ -48,7 +51,9 @@ const Testimonials = () => {
 
 			<div className='max-w-full w-[1440px] mx-auto flex flex-col justify-center items-center mt-[90px] lg:mt-[170px] bg-gradient-to-b from-[rgba(254,199,1,1)] to-[rgba(254,149,1,1)] rounded-[16px] lg:rounded-[20px] py-[27px] lg:py-[122px] px-[40px] lg:px-[160px]'>
 				<div className='text-[24px] lg:text-[65px] font-[500] text-[rgba(43,39,33,1)] text-center'>Get up to 100% off</div>
-				<div className='text-[16px] lg:text-[51px] font-[400] text-[rgba(43,39,33,1)] text-center mt-2 leading-[25px] lg:leading-[56px]'>Your fees and unlock exclusive perks by staking your crypto today!</div>
+				<div className='max-w-full w-[1000px] text-[16px] lg:text-[51px] font-[400] text-[rgba(43,39,33,1)] text-center mt-2 leading-[25px] lg:leading-[56px]'>
+					Your fees and unlock exclusive perks by staking your crypto today!
+				</div>
 				<div className='w-full flex flex-col lg:flex-row justify-center items-center gap-5 mt-[24px] lg:mt-[32px]'>
 					<IconButton
 						text='Start Staking'
@@ -56,13 +61,13 @@ const Testimonials = () => {
 						BgClass='bg-[rgba(29,25,18,1)]'
 						BgHoverClass="hover:bg-[rgba(99,25,18,1)]"
 						TxClass='text-[rgba(255,192,0,1)]'
-						onClick={() => { }}
+						onClick={() => navigate("/main/staking")}
 					/>
 					<IconButton
 						text='Discover the Bonuses'
 						className='w-full lg:w-[260px]'
 						BgClass='bg-transparent border border-[rgba(29,25,18,1)]'
-						onClick={() => { }}
+						onClick={() => navigate("/main/leaderboard")}
 					/>
 				</div>
 			</div>

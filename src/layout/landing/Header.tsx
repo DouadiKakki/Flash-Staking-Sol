@@ -2,9 +2,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useMediaQuery } from "react-responsive"
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IconButton from "../../components/IconButton";
-import { useOnClickOutside } from "usehooks-ts";
+import { useDebounceCallback, useEventListener, useOnClickOutside } from "usehooks-ts";
 
 import ImgHamburger from "../../assets/imgs/hamburger.svg";
 import { scrollTo } from "../../utils/animateScroll";
@@ -19,9 +19,12 @@ const menus = [
 
 
 export default function Header(props: any) {
-
+    
+    const navigate = useNavigate();
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
+
+    const [showHeaderBg, setShowHeaderBg] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     const btnRef = useRef(null);
@@ -34,13 +37,19 @@ export default function Header(props: any) {
         setShowMobileMenu(false);
     }, [isTabletOrMobile]);
 
+    const onScroll = () => {
+        setShowHeaderBg(window.scrollY > 100);
+    }
+    const debounced = useDebounceCallback(onScroll, 100);
+    useEventListener('scroll', debounced);
+
     const scrollToSection = (id) => {
         scrollTo({ id });
         setShowMobileMenu(false);
     }
 
     return (
-        <header className='w-full z-50 fixed top-0 left-0 px-[20px] py-[30px] md:py-[32px] bg-transparent'>
+        <header className={`w-full z-50 fixed top-0 left-0 px-[20px] py-[30px] md:py-[32px] ${showHeaderBg ? 'bg-[#111111d0]' : 'bg-transparent'}`}>
             <div className='max-w-full w-[1440px] mx-auto flex items-center justify-between relative gap-4'>
                 <Link to='/' className='flex flex-row gap-2 items-center'>
                     <img src="/logo.png" alt="" className="w-[50px] h-[50px]" />
@@ -49,7 +58,7 @@ export default function Header(props: any) {
                     </span>
                 </Link>
 
-                <ul className='hidden md:flex flex-row gap-4 2xl:gap-8'>
+                <ul className='hidden md:flex flex-row gap-4 lg:gap-8'>
                     {menus.map(item =>
                         <li key={item.id}
                             className='text-center font-normal text-[18px] text-[#E7E7E9] hover:text-[#FFC000] cursor-pointer'
@@ -63,7 +72,7 @@ export default function Header(props: any) {
                 <IconButton
                     text='Start Staking'
                     className='hidden xl:flex min-w-[188px]'
-                    onClick={() => { }}
+                    onClick={() => navigate("/main/staking")}
                 />
 
                 <div ref={btnRef}
@@ -89,7 +98,7 @@ export default function Header(props: any) {
                         <IconButton
                             text='Start Staking'
                             className='w-full'
-                            onClick={() => { }}
+                            onClick={() => navigate("/main/staking")}
                         />
                     </div>
                 }

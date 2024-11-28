@@ -25,7 +25,7 @@ const cards = [
 const Statistics = () => {
 
 	return (
-		<div id="statistics" className='w-full px-[20px] pt-[80px] lg:pt-[160px]'>
+		<div id="statistics" className='w-full px-[20px] pt-[80px] lg:pt-[160px]' style={{ background: "url(/imgs/bg-grid2.png) center top no-repeat" }}>
 			<div className='max-w-full w-[1440px] mx-auto flex flex-col justify-center items-center gap-4'>
 				<div className='text-[24px] lg:text-[64px] text-center font-[500] h-[40px] lg:h-[100px] bg-gradient-to-b from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent'>
 					Live Statistics
