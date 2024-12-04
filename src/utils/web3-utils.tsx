@@ -11,6 +11,9 @@ export const USDC_ADDRESS = 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr';
 export const USDC_DECIMAL = 6;
 
 
+export const STAKING_PROGRAM_ID = 'AJh1PBLUDwUxUqSj6Qrx8L543Jfu9LkKPVxFqJF4ov4z';
+export const STAKING_POOL_PUBKEY = 'AgKsQDsTFxNj8zUph5YAPopEsqYt1gTUVdrmqqxZdfXC';
+
 
 export const getTokenRates = async () => {
     try {

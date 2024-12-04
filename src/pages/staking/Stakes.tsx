@@ -5,19 +5,28 @@ import IconButton from '../../components/IconButton';
 import Input from '../../components/Input';
 import DefaultSelect from '../../components/Select';
 import { toast } from 'react-toastify';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
 
 const Stakes = () => {
 
 	const [amount, setAmount] = useState(0);
 	const [period, setPeriod] = useState(0);
 
+	const { connection } = useConnection();
+	const { connected, publicKey, sendTransaction } = useWallet();
+
 	const handleStake = async () => {
 		if (Number(amount) <= 0) {
-			return toast.error("Please input the coorect stake amount!");
+			return toast.error("Please input the correct stake amount!");
 		}
 		if (period <= 0) {
 			return toast.error("Please select the Lock option!");
 		}
+		if (!connected) {
+			return toast.error("Please connect your wallet!");
+		}
+
 	}
 
 	return (

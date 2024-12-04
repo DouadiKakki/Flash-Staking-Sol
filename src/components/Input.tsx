@@ -82,7 +82,7 @@ const Input = ({
           <img
             src={rightIcon}
             alt="icon"
-            className={`absolute top-[50%] translate-y-[-50%] right-4 ${rightIconClick && 'cursor-pointer'}`}
+            className={`absolute top-[50%] translate-y-[-50%] right-1 ${rightIconClick && 'cursor-pointer'}`}
             onClick={() => { if (rightIconClick) rightIconClick(); }}
           />
         )}

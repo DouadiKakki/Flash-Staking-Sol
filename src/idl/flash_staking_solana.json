@@ -1,0 +1,697 @@
+{
+  "address": "AJh1PBLUDwUxUqSj6Qrx8L543Jfu9LkKPVxFqJF4ov4z",
+  "metadata": {
+    "name": "flash_staking_solana",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "fund",
+      "docs": [
+        "Fund the staking pool for reward tokens."
+      ],
+      "discriminator": [
+        218,
+        188,
+        111,
+        221,
+        152,
+        113,
+        174,
+        7
+      ],
+      "accounts": [
+        {
+          "name": "pool_info",
+          "writable": true
+        },
+        {
+          "name": "funder",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "funder_vault",
+          "writable": true
+        },
+        {
+          "name": "token_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  233,
+                  40,
+                  57,
+                  85,
+                  9,
+                  101,
+                  255,
+                  212,
+                  214,
+                  74,
+                  202,
+                  175,
+                  70,
+                  212,
+                  93,
+                  247,
+                  49,
+                  142,
+                  91,
+                  79,
+                  87,
+                  201,
+                  12,
+                  72,
+                  125,
+                  96,
+                  98,
+                  93,
+                  130,
+                  155,
+                  131,
+                  123
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "address": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize staking pool"
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_info",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  233,
+                  40,
+                  57,
+                  85,
+                  9,
+                  101,
+                  255,
+                  212,
+                  214,
+                  74,
+                  202,
+                  175,
+                  70,
+                  212,
+                  93,
+                  247,
+                  49,
+                  142,
+                  91,
+                  79,
+                  87,
+                  201,
+                  12,
+                  72,
+                  125,
+                  96,
+                  98,
+                  93,
+                  130,
+                  155,
+                  131,
+                  123
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "address": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake",
+      "docs": [
+        "Stake tokens"
+      ],
+      "discriminator": [
+        206,
+        176,
+        202,
+        18,
+        200,
+        209,
+        179,
+        108
+      ],
+      "accounts": [
+        {
+          "name": "pool_info",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  115,
+                  116,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "path": "pool_info.owner",
+                "account": "PoolInfo"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_vault",
+          "writable": true
+        },
+        {
+          "name": "token_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  233,
+                  40,
+                  57,
+                  85,
+                  9,
+                  101,
+                  255,
+                  212,
+                  214,
+                  74,
+                  202,
+                  175,
+                  70,
+                  212,
+                  93,
+                  247,
+                  49,
+                  142,
+                  91,
+                  79,
+                  87,
+                  201,
+                  12,
+                  72,
+                  125,
+                  96,
+                  98,
+                  93,
+                  130,
+                  155,
+                  131,
+                  123
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "address": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
+        },
+        {
+          "name": "company_vault",
+          "writable": true,
+          "address": "HqNUFWT2UC16CPZpWVTAU4SV4R3CYFi1sBFJEpN89fVa"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "stake_time",
+          "type": "u64"
+        },
+        {
+          "name": "stake_percent",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "docs": [
+        "Unstake tokens"
+      ],
+      "discriminator": [
+        90,
+        95,
+        107,
+        42,
+        205,
+        124,
+        50,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "pool_info",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  115,
+                  116,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "path": "pool_info.owner",
+                "account": "PoolInfo"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_vault",
+          "writable": true
+        },
+        {
+          "name": "token_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  108,
+                  97,
+                  115,
+                  104,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  233,
+                  40,
+                  57,
+                  85,
+                  9,
+                  101,
+                  255,
+                  212,
+                  214,
+                  74,
+                  202,
+                  175,
+                  70,
+                  212,
+                  93,
+                  247,
+                  49,
+                  142,
+                  91,
+                  79,
+                  87,
+                  201,
+                  12,
+                  72,
+                  125,
+                  96,
+                  98,
+                  93,
+                  130,
+                  155,
+                  131,
+                  123
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint",
+          "address": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
+        },
+        {
+          "name": "company_vault",
+          "writable": true,
+          "address": "HqNUFWT2UC16CPZpWVTAU4SV4R3CYFi1sBFJEpN89fVa"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "staking_id",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PoolInfo",
+      "discriminator": [
+        18,
+        19,
+        191,
+        60,
+        244,
+        139,
+        177,
+        235
+      ]
+    },
+    {
+      "name": "UserInfo",
+      "discriminator": [
+        83,
+        134,
+        200,
+        56,
+        144,
+        56,
+        10,
+        62
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ZeroAmount",
+      "msg": "The amount should be more than 0"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidPlan",
+      "msg": "Plan is invalid"
+    },
+    {
+      "code": 6002,
+      "name": "StakeNotFinished",
+      "msg": "Please wait until unstake time"
+    },
+    {
+      "code": 6003,
+      "name": "AlreadyUnstaked",
+      "msg": "You already unstaked"
+    }
+  ],
+  "types": [
+    {
+      "name": "PoolInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_staked",
+            "type": "u64"
+          },
+          {
+            "name": "total_stakers",
+            "type": "u64"
+          },
+          {
+            "name": "total_reward_distributed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stake_amount",
+            "type": "u64"
+          },
+          {
+            "name": "start_time",
+            "type": "u64"
+          },
+          {
+            "name": "finished_time",
+            "type": "u64"
+          },
+          {
+            "name": "profit",
+            "type": "u64"
+          },
+          {
+            "name": "unstaked",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total_deposit",
+            "type": "u64"
+          },
+          {
+            "name": "total_reward_distributed",
+            "type": "u64"
+          },
+          {
+            "name": "staking_id",
+            "type": "u16"
+          },
+          {
+            "name": "staking_list",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "StakingInfo"
+                }
+              }
+            }
+          },
+          {
+            "name": "key",
+            "type": "pubkey"
+          },
+          {
+            "name": "staking_pool",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ]
+}

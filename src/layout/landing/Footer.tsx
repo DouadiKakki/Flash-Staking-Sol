@@ -1,6 +1,21 @@
+// @ts-nocheck
+
 import { Link } from 'react-router-dom'
+import Input from '../../components/Input'
+import ImgSendEmail from '../../assets/imgs/icon-sendemail.svg';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Footer(props: any) {
+
+    const [email, setEmail] = useState('');
+    const handleSendEmail = () => {
+        if (email) {
+            // window.open(`mailto:email`);
+        } else {
+            toast.error("Email is required!");
+        }
+    }
 
     return (
         <div className='w-full p-[20px] lg:p-[60px] text-[#B3B3B3] text-[16px]'>
@@ -39,6 +54,16 @@ export default function Footer(props: any) {
                     </div>
                     <div className='flex flex-col items-center lg:items-start gap-3 w-full lg:w-auto'>
                         <div className='text-white text-[20px] font-[500] mb-1'>Sign up to our newsletter</div>
+                        <div className='w-full'>
+                            <Input
+                                placeholder='Enter your email'
+                                className='lg:w-[310px] max-w-full'
+                                rightIcon={ImgSendEmail}
+                                rightIconClick={handleSendEmail}
+                                value={email}
+                                setValue={setEmail}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='max-w-full w-[1520px] mx-auto flex items-center justify-center border-t-[2px] border-[#232323] pt-[24px] mt-[50px]'>
