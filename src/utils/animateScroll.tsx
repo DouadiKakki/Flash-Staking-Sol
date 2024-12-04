@@ -78,7 +78,7 @@ export const scrollTo = ({ id, ref = null, duration = 2000 }: any) => {
 
         animateScroll({
             // target position is the elements offsetTop
-            targetPosition: getElementPosition(element) - 150,
+            targetPosition: getElementPosition(element) - 0,
             initialPosition,
             duration
         });

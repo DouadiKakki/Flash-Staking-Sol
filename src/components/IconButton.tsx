@@ -18,7 +18,7 @@ const IconButton = ({
 }) => {
   return (
     <button
-      className={`${className} ${px} ${py} max-w-full flex flex-row justify-center items-center gap-2 ${rounded} ${BgClass} ${BgHoverClass}`}
+      className={`${px} ${py} max-w-full flex flex-row justify-center items-center gap-2 ${rounded} ${BgClass} ${BgHoverClass} ${className}`}
       onClick={(e) => { e.preventDefault(); onClick(); }}
     >
       {icon && (

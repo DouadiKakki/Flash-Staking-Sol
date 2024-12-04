@@ -6,6 +6,7 @@ import ImgStaking from "../../assets/imgs/Staking.png";
 import IconButton from '../../components/IconButton';
 import IconButton2 from '../../components/IconButton2';
 import { useNavigate } from 'react-router-dom';
+import { scrollTo } from '../../utils/animateScroll';
 
 const Banner = () => {
 	const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Banner = () => {
 					<IconButton2
 						text='Discover the Bonuses'
 						className='w-full md:w-[260px]'
-						onClick={() => navigate("/main/leaderboard")}
+						onClick={() => scrollTo({ id: "benefits" })}
 					/>
 				</div>
 			</div>

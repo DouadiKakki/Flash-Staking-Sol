@@ -52,7 +52,7 @@ const Benefits = () => {
 						(
 							<div key={index} className='relative w-[335px] h-[225px] p-[2px] bg-gradient-to-b from-[rgba(73,73,73,0.5)] to-[rgba(73,73,73,0)] rounded-[16px] hover:scale-110 transition-all duration-500'>
 								<div className='relative w-full h-full p-[24px] flex flex-col justify-start items-start overflow-hidden bg-gradient-to-b from-[rgba(30,30,30,1)] to-[rgba(21,21,21,1)] rounded-[16px]'>
-									<img src={BgCard} className='w-[409px] absolute top-0 right-0 z-10' />
+									<img src={BgCard} className='w-[409px] absolute top-0 right-0 z-10' alt='bg' />
 									<img src={item.img} className='w-[64px] h-[64px] z-20' alt='flash' />
 									<div className='text-white text-center text-[20px] mt-[20px] z-20'>{item.title}</div>
 									<div className='text-[#B3B3B3] text-center text-[16px] font-[400] mt-[16px] z-20'>{item.desc}</div>

@@ -30,10 +30,10 @@ const WhyStake = () => {
 
 	return (
 		<div id="about" className='relative w-full px-[20px] pt-[80px] lg:pt-[160px]'>
-			<img src={ImgBG} className='max-w-full w-[1000px] absolute top-[-20px] left-[50%] -translate-x-1/2 z-10' />
+			<img src={ImgBG} className='max-w-full w-[1000px] absolute top-[-20px] left-[50%] -translate-x-1/2 z-10' alt="bg" />
 			<div className='max-w-full w-[1440px] mx-auto flex flex-col lg:flex-row-reverse justify-between items-center gap-10'>
 				<div className='w-full max-w-[550px] max-h-[512px] flex items-center justify-center z-20'>
-					<img src={Img} alt='why stake' className='w-[80%] lg:w-full hover:scale-[105%] transition-all duration-500' />
+					<img src={Img} alt='why stake' className='w-[80%] lg:w-full hover:scale-[105%] transition-all duration-500' a />
 				</div>
 				<div className='w-full flex flex-col gap-[20px] lg:gap-[28px] z-20'>
 					<div className='text-[24px] lg:text-[64px] text-start font-[500] h-[40px] lg:h-[100px] mb-[12px] lg:mb-[30px] bg-gradient-to-b from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent'>

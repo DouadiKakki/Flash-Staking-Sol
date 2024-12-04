@@ -31,6 +31,7 @@ export const showConfirmBox = (title: any, text: any, callback: Function) => {
     });
 }
 
+export const numberFormatter = format({ prefix: "", integerSeparator: "," });
 export const dollarFormatter = format({ prefix: "$", integerSeparator: "," });
 export const dollarFormatter2 = format({ prefix: "$", integerSeparator: ",", truncate: 2, padRight: 2 });
 export const dollarFormatter3 = format({ prefix: "$", integerSeparator: ",", truncate: 3, padRight: 3 });
@@ -64,3 +65,4 @@ export const getTrimedAddress = (address: any) => {
     }
     return address.substring(0, 6) + "......" + address.substr(-6);
 }
+

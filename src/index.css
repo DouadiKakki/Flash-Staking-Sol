@@ -18,12 +18,57 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #181818 #0F0F0F;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0F0F0F;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #181818;
+  border-radius: 10px;
+}
+
+
 .Toastify__toast-container {
   z-index: 10001 !important;
+}
+
+
+.staking-overview .swiper-button-prev,
+.staking-overview .swiper-button-next {
+  color: rgba(255, 192, 0, 1);
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(32, 32, 32, 1);
+  border: 1px solid rgba(49, 48, 48, 1);
+  border-radius: 50%;
+}
+.staking-overview .swiper-button-disabled {
+  display: none;
+}
+.staking-overview .swiper-button-prev::after,
+.staking-overview .swiper-button-next::after {
+  font-size: 16px;
 }

@@ -23,7 +23,6 @@ export default function Header(props: any) {
     const navigate = useNavigate();
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
-
     const [showHeaderBg, setShowHeaderBg] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
 

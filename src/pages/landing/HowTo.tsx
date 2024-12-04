@@ -43,7 +43,7 @@ const HowTo = () => {
 					{steps.map((item, index) =>
 					(
 						<div key={index} className='relative w-[383px] h-[477px] px-[24px] flex flex-col justify-start items-center overflow-hidden bg-gradient-to-b from-[#1E1E1E] to-[#151515] border-t-4 border-[rgba(255,192,0,1)] rounded-b-[20px] hover:scale-110 transition-all duration-500'>
-							<img src={BgCard} className='w-[409px] absolute top-[-20px] left-0 z-10' />
+							<img src={BgCard} className='w-[409px] absolute top-[-20px] left-0 z-10' alt='bg' />
 							<div className='text-white text-[16px] mt-[20px] z-20'>Step{index + 1}</div>
 							<img src={item.img} className='w-[98px] h-[98px] mt-[30px] z-20' alt='flash' />
 							<div className='text-white text-center text-[24px] mt-[65px] z-20'>{item.title}</div>
