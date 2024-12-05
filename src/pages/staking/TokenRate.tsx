@@ -6,7 +6,7 @@ import { dollarFormatter2, numberFormatter } from '../../utils/utils';
 import ImgFlash from "../../assets/imgs/flash3.svg";
 import ImgSol from "../../assets/imgs/sol.svg";
 import ImgUsdt from "../../assets/imgs/usdt.svg";
-import { getTokenRates } from '../../utils/web3-utils';
+import { getTokenRates } from '../../utils/utils';
 import { useInterval } from 'usehooks-ts';
 
 const tokens = [
@@ -58,7 +58,7 @@ const TokenRate = () => {
 						<div>
 							<div className='text-white text-right text-[14px] font-[500]'>${numberFormatter(rates?.[item.symbol]?.price ?? 0)}</div>
 							<div className={`${rates?.[item.symbol]?.percent >= 0 ? 'text-[#0ad83d]' : 'text-[#f31317]'} text-right text-[12px] font-[400] mt-2`}>
-								{rates?.[item.symbol]?.percent >= 0 && '+'}{rates?.[item.symbol]?.percent}%
+								{rates?.[item.symbol]?.percent >= 0 && '+'}{rates?.[item.symbol]?.percent}
 							</div>
 						</div>
 					</div>

@@ -3,49 +3,111 @@
 import React, { useEffect, useState } from 'react';
 import { numberFormatter } from '../../utils/utils';
 import dayjs from 'dayjs';
+import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { formatAmount, getUserStakeInfo, unstake } from '../../utils/web3-utils';
+import IconButton from '../../components/IconButton';
+import { toast } from 'react-toastify';
 
-const LockPeriod = () => {
+const LockPeriod = ({ updateKey, onPoolChanged = () => { } }) => {
 
+	const { connection } = useConnection();
+	const { connected, publicKey } = useWallet();
+	const wallet = useAnchorWallet();
+
+	const [isLoading, setIsLoading] = useState(false);
+
+	const [stakeId, setStakeId] = useState(-1);
 	const [balance, setBalance] = useState(0);
 	const [unlockTime, setUnlockTime] = useState(null);
+	const [canClaim, setCanClaim] = useState(false);
+
 	const [day, setDay] = useState(0);
 	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
 	const [second, setSecond] = useState(0);
 
-	useEffect(() => {
-		let date = new Date(1733513008000);
-		setUnlockTime(date);
 
-		setBalance(25000);
-	}, []);
+	useEffect(() => {
+		clear();
+		if (connected) {
+			loadUnlockInfo();
+		}
+	}, [connected, updateKey]);
+
+	const clear = (timeOnly = false) => {
+		setDay(0);
+		setHour(0);
+		setMinute(0);
+		setSecond(0);
+		if (!timeOnly) {
+			setUnlockTime(null);
+			setBalance(0);
+			setStakeId(-1);
+			setCanClaim(false);
+		}
+	}
+
+	const loadUnlockInfo = async () => {
+		try {
+			const userStakeInfo = await getUserStakeInfo(publicKey);
+			if (!userStakeInfo) {
+				return;
+			}
+			let id = 0;
+			let currentStakingInfo = null;
+			for (let i = 0; i < userStakeInfo.stakingList.length; i++) {
+				const stakingInfo = userStakeInfo.stakingList[i];
+				if (stakingInfo.unstaked) {
+					continue;
+				}
+				if (currentStakingInfo == null) {
+					id = i;
+					currentStakingInfo = stakingInfo;
+				} else if (currentStakingInfo.finishedTime > stakingInfo.finishedTime) {
+					id = i;
+					currentStakingInfo = stakingInfo;
+				}
+			}
+			if (currentStakingInfo) {
+				setStakeId(id);
+				setBalance(formatAmount(currentStakingInfo.stakeAmount) + formatAmount(currentStakingInfo.profit));
+				setUnlockTime(new Date(Number(currentStakingInfo.finishedTime) * 1000));
+			}
+		} catch (err) {
+		}
+	}
 
 	useEffect(() => {
 		if (!unlockTime) {
 			return;
 		}
 
-		const second = 1000,
-			minute = second * 60,
-			hour = minute * 60,
-			day = hour * 24;
+		const seconds = 1000,
+			minutes = seconds * 60,
+			hours = minutes * 60,
+			days = hours * 24;
 
-		const countDown = unlockTime.getTime() + (23 * 60 - new Date().getTimezoneOffset()) * 60 * 1000;
+		const countDown = unlockTime.getTime();// + new Date().getTimezoneOffset() * 60 * 1000;
 		const timer = setInterval(function () {
-			const now = new Date().getTime(), distance = countDown - now;
+			const now = new Date().getTime();
+			const distance = countDown - now;
 
-			setDay(Math.floor(distance / (day)))
-			setHour(Math.floor((distance % (day)) / (hour)))
-			setMinute(Math.floor((distance % (hour)) / (minute)))
-			setSecond(Math.floor((distance % (minute)) / second))
-
-			//do something later when date is reached
-			if (distance < 0) {
+			if (distance <= 0) {
 				clearInterval(timer);
+				clear(true);
+				setCanClaim(true);
+			} else {
+				setDay(Math.floor(distance / (days)))
+				setHour(Math.floor((distance % (days)) / (hours)))
+				setMinute(Math.floor((distance % (hours)) / (minutes)))
+				setSecond(Math.floor((distance % (minutes)) / seconds))
 			}
 		}, 1000);
 
-		return () => clearInterval(timer);
+		return () => {
+			clear();
+			clearInterval(timer)
+		}
 	}, [unlockTime]);
 
 	const renderTimeCard = (label, num) => {
@@ -78,6 +140,20 @@ const LockPeriod = () => {
 		);
 	}
 
+	const handleUnstake = async () => {
+		setIsLoading(true);
+		const tx = await unstake(connection, publicKey, stakeId);
+		setIsLoading(false);
+		if (tx) {
+			toast.success("Claim succeed!");
+			if (onPoolChanged) {
+				onPoolChanged();
+			}
+		} else {
+			toast.error("Failed to claim!");
+		}
+	}
+
 	return (
 		<div className='w-full h-full flex flex-col p-[16px] md:p-[24px] bg-[#1b1b1b] rounded-[8px] md:rounded-[12px]'>
 			<div className='text-white text-[14px] md:text-[16px] font-[500]'>Lock Period</div>
@@ -88,10 +164,25 @@ const LockPeriod = () => {
 					<span>{dayjs(unlockTime).format("dddd")}</span>
 				</div>
 			}
-			<div className='text-white text-[18px] md:text-[28px] font-[400] mt-[20px]'>
-				${numberFormatter(balance)} FLASH
+			<div className='w-full flex flex-row justify-between items-center mt-[20px]'>
+				<div>
+					<div className='text-white text-[18px] md:text-[28px] font-[400]'>
+						${numberFormatter(balance)} FLASH
+					</div>
+					<div className='text-[#606060] text-[12px] md:text-[14px] font-[400]'>Balance</div>
+				</div>
+				{(canClaim) &&
+					<div>
+						<IconButton
+							text='Claim'
+							className='w-[150px]'
+							py='py-[12px]'
+							onClick={handleUnstake}
+							disabled={isLoading}
+						/>
+					</div>
+				}
 			</div>
-			<div className='text-[#606060] text-[12px] md:text-[14px] font-[400]'>Balance</div>
 			<div className='w-full bg-[#131313] border border-[#2e2e2eb3] rounded-[8px] md:rounded-[12px] p-[12px] md:p-[20px] flex flex-row justify-center items-center mt-[20px] md:mt-[24px] gap-[2px] md:gap-[4px] overflow-hidden'>
 				{renderTimeCard('Day', day)}
 				<div className='text-white text-[24px] font-bold mb-[36px]'>:</div>

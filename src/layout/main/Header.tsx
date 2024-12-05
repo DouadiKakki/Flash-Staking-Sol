@@ -1,23 +1,32 @@
 //@ts-nocheck
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import ImgHamburger from "../../assets/imgs/hamburger.svg";
 import ImgLogout from "../../assets/imgs/icon-logout.svg";
 
 import { useNavigate } from "react-router-dom";
-import { getTrimedAddress } from "../../utils/utils";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 import "./custom.css";
+import { initAnchorProvider } from "../../utils/web3-utils";
 
 const Header = (props: any) => {
 
     const navigate = useNavigate();
-    const { connected, publicKey, disconnect } = useWallet();
+
+    const { connection } = useConnection();
+    const { connected, disconnect } = useWallet();
+    const wallet = useAnchorWallet();
+
+    useEffect(() => {
+        if (connection) {
+            initAnchorProvider(connection, wallet);
+        }
+    }, [connection, wallet]);
 
     return (
         <>

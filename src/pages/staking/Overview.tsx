@@ -17,23 +17,7 @@ import IconUp from "../../assets/imgs/go-up.svg";
 import IconDown from "../../assets/imgs/go-down.svg";
 import { numberFormatter } from '../../utils/utils';
 import { useMediaQuery } from 'react-responsive';
-import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { STAKING_POOL_PUBKEY, STAKING_PROGRAM_ID } from '../../utils/web3-utils';
-import { PublicKey } from '@solana/web3.js';
-import * as borsh from '@coral-xyz/borsh'
-import { AnchorProvider, Program, setProvider } from '@coral-xyz/anchor';
-
-import idl from "../../idl/flash_staking_solana.json";
-import type { FlashStakingSolana } from "../../idl/flash_staking_solana";
-
-// const PoolInfoSchema = borsh.struct([
-// 	borsh.u64('info'),
-// 	borsh.publicKey('owner'),
-// 	borsh.u64('totalStaked'),
-// 	borsh.u64('totalStakers'),
-// 	borsh.u64('totalRewardDistributed'),
-// 	borsh.u8('bump'),
-// ])
+import { getPoolInfo } from '../../utils/web3-utils';
 
 const _cards = [
 	{
@@ -71,59 +55,38 @@ const _cards = [
 	},
 ];
 
-const Overview = () => {
+const Overview = ({ updateKey }) => {
 
 	const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
-	const { connection } = useConnection();
-	const { connected, publicKey, sendTransaction } = useWallet();
-	const wallet = useAnchorWallet();
-	const provider = new AnchorProvider(connection, wallet, {
-		commitment: "confirmed",
-	});
-	setProvider(provider);
-
+	const [isLoading, setIsLoading] = useState(false);
 	const [cards, setCards] = useState(_cards);
 
 	useEffect(() => {
-		getOverviews();
-	}, []);
+		const getOverviews = async () => {
+			try {
+				setIsLoading(true);
+				const poolInfo = await getPoolInfo();
 
-	const getOverviews = async () => {
-		try {
+				const newCards = [..._cards];
 
-			const program = new Program(idl as FlashStakingSolana);
+				newCards[0].value = poolInfo.totalStaked;
+				newCards[1].value = poolInfo.totalStaked + poolInfo.totalRewardDistributed;
+				newCards[2].value = 3;
+				newCards[3].value = poolInfo.totalStakers;
 
-			const poolInfo = await program.account.poolInfo.fetch(STAKING_POOL_PUBKEY);
-			console.log(poolInfo);
-
-			// await program.methods
-			// 	.instructionName(instructionDataInputs)
-			// 	.accounts({})
-			// 	.signers([])
-			// 	.rpc();
-
-			// const accounts = await connection.getParsedProgramAccounts(
-			// 	new PublicKey(STAKING_PROGRAM_ID)
-			// );
-			// console.log("🚀 ~ getOverviews ~ accounts:", accounts)
-			// console.log("🚀 ~ getOverviews ~ accounts:", accounts[0].pubkey.toBase58())
-			// let data = PoolInfoSchema.decode(accounts[0].account.data);
-
-			// console.log("🚀 ~ getOverviews ~ accounts:", data)
-
-			const newCards = [..._cards];
-
-			newCards[0].value = poolInfo.totalStaked;
-			newCards[1].value = poolInfo.totalRewardDistributed;
-			newCards[2].value = 3;
-			newCards[3].value = poolInfo.totalStakers;
-
-			setCards(newCards);
-		} catch (err) {
-			console.log("🚀 ~ getOverviews ~ err:", err)
+				setCards(newCards);
+				setIsLoading(false);
+			} catch (err) {
+				console.log("🚀 ~ getOverviews ~ err:", err)
+			}
 		}
-	}
+		getOverviews();
+
+		const timer = setInterval(getOverviews, 100000);
+		return () => clearInterval(timer);
+	}, [updateKey]);
+
 
 	const renderCard = (item, index) => {
 		return (
@@ -135,10 +98,10 @@ const Overview = () => {
 				<div className='text-white text-[28px] font-[400] mt-[20px]'>
 					{item.prefix || ""}{numberFormatter(item.value)}{item.suffix || ""}
 				</div>
-				<div className='text-[#B3B3B3] text-[14px] font-[400] mt-[10px] flex flex-row items-center gap-[10px]'>
+				{/* <div className='text-[#B3B3B3] text-[14px] font-[400] mt-[10px] flex flex-row items-center gap-[10px]'>
 					<img src={item.inc >= 0 ? IconUp : IconDown} alt='diff' />
 					{Math.abs(item.inc)}% Last Week
-				</div>
+				</div> */}
 			</div>
 		);
 	}

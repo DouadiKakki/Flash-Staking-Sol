@@ -6,15 +6,24 @@ import Input from '../../components/Input';
 import DefaultSelect from '../../components/Select';
 import { toast } from 'react-toastify';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { stake } from '../../utils/web3-utils';
 
-const Stakes = () => {
+const lockPeriods = [
+	{ value: 0, label: "Select Lock" },
+	{ value: 30, percent: 15, label: "30 Days - 0.15% Reward" },
+	{ value: 90, percent: 50, label: "90 Days - 0.50% Reward" },
+	{ value: 180, percent: 140, label: "180 Days - 1.4% Reward" },
+	{ value: 365, percent: 300, label: "365 Days - 3% Reward" },
+];
 
-	const [amount, setAmount] = useState(0);
-	const [period, setPeriod] = useState(0);
+const Stakes = ({ onPoolChanged = () => { } }) => {
 
 	const { connection } = useConnection();
-	const { connected, publicKey, sendTransaction } = useWallet();
+	const { connected, publicKey } = useWallet();
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [amount, setAmount] = useState(0);
+	const [period, setPeriod] = useState(0);
 
 	const handleStake = async () => {
 		if (Number(amount) <= 0) {
@@ -26,7 +35,18 @@ const Stakes = () => {
 		if (!connected) {
 			return toast.error("Please connect your wallet!");
 		}
-
+		let percent = lockPeriods.find(item => item.value == period)?.percent;
+		setIsLoading(true);
+		const tx = await stake(connection, publicKey, amount, period, percent);
+		setIsLoading(false);
+		if (tx) {
+			toast.success("Staking succeed!");
+			if (onPoolChanged) { 
+				onPoolChanged();
+			}
+		} else {
+			toast.error("Failed to stake!");
+		}
 	}
 
 	return (
@@ -42,13 +62,7 @@ const Stakes = () => {
 				/>
 				<DefaultSelect
 					label='Bonus Lock Option'
-					options={[
-						{ value: 0, label: "Select Lock" },
-						{ value: 30, label: "30 Days - 0.15% Reward" },
-						{ value: 90, label: "90 Days - 0.50% Reward" },
-						{ value: 180, label: "180 Days - 1.4% Reward" },
-						{ value: 365, label: "365 Days - 3% Reward" },
-					]}
+					options={lockPeriods}
 					value={period}
 					setValue={setPeriod}
 				/>
@@ -57,6 +71,7 @@ const Stakes = () => {
 					className='w-full'
 					py='py-[12px]'
 					onClick={handleStake}
+					disabled={isLoading}
 				/>
 			</div>
 		</div>

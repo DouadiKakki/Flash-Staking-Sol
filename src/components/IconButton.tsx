@@ -15,11 +15,13 @@ const IconButton = ({
   onClick = () => { },
   capitalize = true,
   iconHeight = null,
+  disabled = false,
 }) => {
   return (
     <button
-      className={`${px} ${py} max-w-full flex flex-row justify-center items-center gap-2 ${rounded} ${BgClass} ${BgHoverClass} ${className}`}
+      className={`${px} ${py} max-w-full flex flex-row justify-center items-center gap-2 ${rounded} ${BgClass} ${BgHoverClass} ${disabled && '!bg-[#8d8c89]'} ${className}`}
       onClick={(e) => { e.preventDefault(); onClick(); }}
+      disabled={disabled}
     >
       {icon && (
         <img
