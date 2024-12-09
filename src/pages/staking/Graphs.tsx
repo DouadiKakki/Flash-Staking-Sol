@@ -39,7 +39,7 @@ const _chartOptions = {
 		}
 	},
 	xaxis: {
-		type: 'category',
+		type: 'datetime',
 		categories: [],
 		labels: {
 			formatter: function (value, timestamp) {
@@ -47,8 +47,8 @@ const _chartOptions = {
 			},
 		},
 		tooltip: false,
-		min: 0,
-		max: 10,
+		// min: 0,
+		// max: 10,
 		tickAmount: 6,
 	},
 	yaxis: {
@@ -80,7 +80,7 @@ const Graphs = ({ updateKey }) => {
 	const loadStatistics = async () => {
 		try {
 			let result = await getAllUserStakeInfo(connection);
-			console.log("🚀 ~ loadStatistics ~ result:", result);
+			// console.log("🚀 ~ loadStatistics ~ result:", result);
 			const stakings = {};
 
 			let firstDate = null;
@@ -146,25 +146,28 @@ const Graphs = ({ updateKey }) => {
 		let xmin = startDate.getTime();
 		let xmax = today.getTime();
 
-		
 		let total = stakingInfos.slice(period > 0 ? -period : 0).reduce((prev, cur) => prev.value + cur.value);
 		setTotalStaked(total);
 
+		let categories = stakingInfos.slice(period > 0 ? -period : 0).map(item => item.date.getTime());
+		let series = stakingInfos.slice(period > 0 ? -period : 0).map(item => item.value);
+		console.log("🚀 ~ useEffect ~ stakingInfos:", stakingInfos);
+		console.log("🚀 ~ useEffect ~ categories, series:", categories, series)
+
 		setChartOptions((prevChartOptions) => {
 			let newOptions = JSON.parse(JSON.stringify(prevChartOptions));
-			newOptions.xaxis.categories = stakingInfos.map(item => item.date);
-			newOptions.xaxis.min = xmin;
-			newOptions.xaxis.max = xmax;
+			newOptions.xaxis.categories = categories;
+			// newOptions.xaxis.min = xmin;
+			// newOptions.xaxis.max = xmax;
 			return newOptions;
 		});
 		setChartSeries([
 			{
 				name: "Staked",
-				data: stakingInfos.map(item => item.value),
+				data: series,
 			},
 		]);
 
-		console.log("🚀 ~ Graphs ~ stakingInfos:", stakingInfos)
 	}, [period, stakingInfos]);
 
 	return (

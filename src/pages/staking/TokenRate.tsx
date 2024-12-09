@@ -36,7 +36,9 @@ const TokenRate = () => {
 
 	const getRates = async () => {
 		const result = await getTokenRates();
-		setRates(result);
+		if (result) {
+			setRates(result);
+		}
 	}
 	useInterval(getRates, 10000);
 

@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Buffer } from "buffer";
 import * as anchor from "@coral-xyz/anchor";
-import { AnchorProvider, Program, setProvider, BorshAccountsCoder, BorshInstructionCoder } from "@coral-xyz/anchor";
+import { AnchorProvider, Program, setProvider, BorshAccountsCoder } from "@coral-xyz/anchor";
 import { Account, TOKEN_PROGRAM_ID, getOrCreateAssociatedTokenAccount } from "@solana/spl-token";
 import { Connection, PublicKey, SystemProgram } from "@solana/web3.js";
 import idl from "../idl/flash_staking_solana.json";
